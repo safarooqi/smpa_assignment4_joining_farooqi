@@ -98,7 +98,9 @@ Using the joined table you made above:
 
 ```{r}
 
-
+elex_demographics %>%
+  group_by(pct_ed_college_all_abovebelow_natl) %>%
+  summarise(mean_trump_pct = mean(pct_r_2020.x, na.rm = TRUE))
 
 
 ```
@@ -106,21 +108,31 @@ Using the joined table you made above:
 Now using the joined datasets above, come up with two groupings you find interesting or newsworthy in a particular state, and replicate the steps above them them instead.
 
 5)  
+comparing the percentage of military veterans that voted for Trump in the state of MA (which is known
+to be a very blue state) to the rest of the country
 
 ```{r}
 
+elex_demographics %>%
+  filter(state_code == "MA") %>% 
+  group_by(pct_mil_veteran_abovebelow_natl) %>%
+  summarise(mean_trump_pct = mean(pct_r_2020.x, na.rm = TRUE))
 
-
+elex_demographics %>%
+  group_by(pct_mil_veteran_abovebelow_natl) %>%
+  summarise(mean_trump_pct = mean(pct_r_2020.x, na.rm = TRUE))
 
 ```
 
 6)  
+comparing the mean percentage of trump votes to the total votes in the state of NY in the 2020 election
 
 ```{r}
 
-
-
-
+elex_rural_urb_suburb %>% 
+  filter(state_code == "NY") %>% 
+  group_by(rural_urban, totalvotes_2020) %>%
+  summarise(mean_trump_pct = mean(pct_r_2020, na.rm = TRUE))
 
 ```
 
@@ -130,9 +142,9 @@ Up until now we've joined two tables together. But we actually have three tables
 
 ```{r}
 
+elex_dems_2 <- full_join(counties_elexresults, counties_demographics, by = "geoid")
 
-
-
+elex_dems_full <- full_join(elex_dems_2, counties_rural_urban_suburban, by = "geoid")
 
 
 ```
