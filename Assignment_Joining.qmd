@@ -60,7 +60,10 @@ Using the joined election results / urban/suburban/rural table created above:
 
 ```{r}
 
-
+elex_rural_urb_suburb %>% 
+  filter(state_code == "VA") %>% 
+  group_by(winner_2020) %>% 
+  summarise(counties_won_count = n())
 
 
 ```
@@ -75,7 +78,12 @@ Join together the election results and demographics tables above, and then use t
 
 ```{r}
 
+elex_demographics <- left_join(counties_elexresults, counties_demographics, by = "geoid")
 
+elex_demographics %>% 
+  filter(state_code == "FL") %>% 
+  group_by(pct_ed_college_all_abovebelow_natl) %>%
+  summarise(mean_trump_pct = mean(pct_r_2020.x, na.rm = TRUE))
 
 
 ```
