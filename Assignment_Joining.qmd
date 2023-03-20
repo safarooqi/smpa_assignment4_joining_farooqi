@@ -41,8 +41,12 @@ Join together the election results and urban/suburban/rural tables above, and th
 
 ```{r}
 
+elex_rural_urb_suburb <- left_join(counties_elexresults, counties_rural_urban_suburban, by = "geoid")
 
-
+elex_rural_urb_suburb %>% 
+  filter(state_code == "VA") %>% 
+  group_by(rural_urban) %>%
+  summarise(mean_trump_pct = mean(pct_r_2020, na.rm = TRUE))
 
 ```
 
